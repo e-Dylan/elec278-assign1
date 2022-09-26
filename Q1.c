@@ -3,7 +3,8 @@
 
 struct node
 {
-	struct node *pnextnode;
+	struct node *next;
+    struct node *prev;
 	int value;
 };
 
@@ -19,15 +20,17 @@ struct node *create_node(int value) {
     if (new_node != NULL)
 	{
 		new_node->value = value;
-		new_node->pnextnode = NULL;
+		new_node->next = NULL;
+        new_node->prev = NULL;
 	}
     return new_node;
 }
 
 void create() {
-    
+
 }
 
 int main() {
-    return 0;
+    struct node *newNode = create_node(10);
+    printf("%d", newNode->value);
 }
