@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct node
 {
@@ -75,7 +76,7 @@ void insertlast(int d)
         // make the back pointer point to the new one
         ptail = pn;
     }
-    return 0;
+    return;
 }
 
 // Insert a given node into the list such that
@@ -96,6 +97,30 @@ void insertpos(Node *node, int pos)
     }
 }
 
+// Merge two linked lists into a new list in ascending data order
+void merge(Node *phead1, Node *phead2)
+{
+    Node *temp1 = phead1;
+    Node *temp2 = phead2;
+    // Traverse list 1 to merge list 2 nodes into it
+    while (temp1->next != NULL)
+    {
+        if (temp2->value >= temp1->value)
+        {
+            // insert list2 node
+            temp2->next = temp1->next;
+            temp1->next = temp2;
+
+            // increment list2 to it's next node for next check
+            temp2 = temp2->next;
+        }
+        else
+        {
+            temp1 = temp1->next;
+        }
+    }
+}
+
 void create()
 {
     insertfirst(50);
@@ -105,13 +130,20 @@ void create()
     deletefirst();
     Node *new_node = create_node(30);
     insertpos(new_node, 2);
+
+    Node *new_head = create_node(24);
+    new_head->next = create_node(25);
+    new_head->next->next = create_node(36);
+
+    // merge(phead, new_head);
 }
 
-void display(void)
+// Print any passed linked list
+void display(Node *head)
 {
     Node *temp; // temporary pointer used to traverse list
     int count;  // count how many printed on one line
-    if (phead == NULL)
+    if (head == NULL)
     {
         printf("<EMPTY LIST>\n");
         return;
@@ -120,7 +152,7 @@ void display(void)
     // the first node in the list, print the data, and if there is
     // more list, move temp to point to the next node. We'll keep
     // doing this until there are no more nodes to look at.
-    temp = phead;
+    temp = head;
     count = 0; // 0 on line so far
     while (temp != NULL)
     {
@@ -149,5 +181,5 @@ void display(void)
 int main()
 {
     create();
-    display();
+    display(phead);
 }
