@@ -28,13 +28,13 @@ Node *create_node(int value)
 }
 
 // Insert new node at the front of the list
-int insertfirst(int d)
+void insertfirst(int d)
 {
     Node *pn = create_node(d);
 
     // Make sure node creation worked
     if (pn == NULL)
-        return -1;
+        return;
 
     // New node goes at the head of the list.
     pn->next = phead;
@@ -42,24 +42,23 @@ int insertfirst(int d)
     // check if this was the very first node added - if so, we have to update the end pointer as well
     if (ptail == NULL)
         ptail = pn;
-    return 0;
 }
 
 // Delete the first node in the list
-int deletefirst(void)
+void deletefirst(void)
 {
     phead = phead->next;
     phead->prev = NULL;
 }
 
 // Insert new node at end of the list
-int insertlast(int d)
+void insertlast(int d)
 {
     Node *pn = create_node(d);
 
     // make sure node creation worked
     if (pn == NULL)
-        return -1;
+        return;
 
     // New node goes at back of list. If the list is currently empty,
     // then both the head and back pointers need to be updated.
@@ -81,8 +80,20 @@ int insertlast(int d)
 
 // Insert a given node into the list such that
 // the list remains sorted in ascending order
-void insertpos(Node node)
+void insertpos(Node *node, int pos)
 {
+    Node *temp = phead;
+    // Traverse list up to insert position
+    for (int i = 0; i < pos - 1; i++)
+    {
+        temp = temp->next;
+    }
+    if (temp != NULL)
+    {
+        // Found position, insert the new node
+        node->next = temp->next;
+        temp->next = node;
+    }
 }
 
 void create()
@@ -92,6 +103,8 @@ void create()
     insertfirst(10);
     insertfirst(5);
     deletefirst();
+    Node *new_node = create_node(30);
+    insertpos(new_node, 2);
 }
 
 void display(void)
