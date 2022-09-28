@@ -9,6 +9,15 @@ typedef struct node
     int value;
 } Node;
 
+Node *create_node(int value);
+void deletefirst(void);
+void insertfirst(int d);
+void insertlast(int d);
+void insertpos(Node *node, int pos);
+void merge(Node *phead1, Node *phead2);
+void create();
+void display(Node *head);
+
 Node *phead = NULL;
 Node *ptail = NULL;
 
@@ -102,20 +111,24 @@ void merge(Node *phead1, Node *phead2)
 {
     Node *temp1 = phead1;
     Node *temp2 = phead2;
-    // Traverse list 1 to merge list 2 nodes into it
-    while (temp1->next != NULL)
-    {
-        if (temp2->value >= temp1->value)
-        {
-            // insert list2 node
-            temp2->next = temp1->next;
-            temp1->next = temp2;
 
-            // increment list2 to it's next node for next check
-            temp2 = temp2->next;
-        }
-        else
+    // Go until we run out of nodes to merge from list 2
+    while (temp2 != NULL)
+    {
+        // Traverse list 1 to find where to insert nodes
+        while (temp1->next != NULL)
         {
+            if (temp2->value >= temp1->value && temp2->value <= temp1->next->value)
+            {
+                Node *insertnode = create_node(temp2->value);
+                insertnode->next = temp1->next;
+                temp1->next = insertnode;
+
+                // increment list2 to it's next node for next check
+                temp2 = temp2->next;
+                break;
+            }
+            display(phead1);
             temp1 = temp1->next;
         }
     }
@@ -135,7 +148,7 @@ void create()
     new_head->next = create_node(25);
     new_head->next->next = create_node(36);
 
-    // merge(phead, new_head);
+    merge(phead, new_head);
 }
 
 // Print any passed linked list
