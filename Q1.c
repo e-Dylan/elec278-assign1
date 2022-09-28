@@ -40,18 +40,19 @@ Node *create_node(int value)
 // Insert new node at the front of the list
 void insertfirst(int d)
 {
-    Node *pn = create_node(d);
+    Node *new_node = create_node(d);
 
     // Make sure node creation worked
-    if (pn == NULL)
+    if (new_node == NULL)
         return;
 
     // New node goes at the head of the list.
-    pn->next = phead;
-    phead = pn;
+    new_node->next = phead;
+
+    phead = new_node;
     // check if this was the very first node added - if so, we have to update the end pointer as well
     if (ptail == NULL)
-        ptail = pn;
+        ptail = new_node;
 }
 
 // Delete the first node in the list
@@ -64,28 +65,29 @@ void deletefirst(void)
 // Insert new node at end of the list
 void insertlast(int d)
 {
-    Node *pn = create_node(d);
+    Node *new_node = create_node(d);
 
     // make sure node creation worked
-    if (pn == NULL)
+    if (new_node == NULL)
         return;
 
     // New node goes at back of list. If the list is currently empty,
     // then both the head and back pointers need to be updated.
-    if (ptail == NULL)
+    if (phead == NULL && ptail == NULL)
     {
-        ptail = pn;
-        phead = pn;
+        ptail = new_node;
+        phead = new_node;
     }
     else
     {
-        // there are already nodes in the list. Add the new one after
-        // the existing last one.
-        ptail->next = pn;
-        // make the back pointer point to the new one
-        ptail = pn;
+        // there are already nodes in the list
+
+        // add new tail to end of list
+        ptail->next = new_node;
+        new_node->prev = ptail;
+        // Update new tail global pointer
+        ptail = new_node;
     }
-    return;
 }
 
 // Insert a given node into the list such that
@@ -102,6 +104,7 @@ void insertpos(Node *node, int pos)
     {
         // Found position, insert the new node
         node->next = temp->next;
+        node->prev = temp;
         temp->next = node;
     }
 }
@@ -128,7 +131,6 @@ void merge(Node *phead1, Node *phead2)
                 temp2 = temp2->next;
                 break;
             }
-            display(phead1);
             temp1 = temp1->next;
         }
     }
