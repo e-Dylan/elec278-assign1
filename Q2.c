@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+
+// ref:
+// https://www.geeksforgeeks.org/check-for-balanced-parentheses-in-an-expression/
 
 typedef struct node
 {
@@ -38,12 +42,12 @@ bool is_balanced(char str[])
     // Traverse the string
     for (int i = 0; i < strlen(str); i++)
     {
-        if (str[i] == "{" || str[i] == "[" || str[i] == "(")
+        if (str[i] == '{' || str[i] == '[' || str[i] == '(')
         {
             // Open bracket, push to the stack
             push(str[i]);
         }
-        else if (str[i] == "}" || str[i] == "]" || str[i] == ")")
+        else if (str[i] == '}' || str[i] == ']' || str[i] == ')')
         {
             // Closed bracket, pop from the top of the stack and and compare
             char poppedChar = pop();
@@ -53,9 +57,7 @@ bool is_balanced(char str[])
 
 int main()
 {
-    for (int i = 0; i < 10; i++)
-    {
-        push(i + '0');
-    }
-    print_stack();
+    char to_balance[100] = "{}{}[]]]";
+    printf(is_balanced(to_balance) ? "true" : "false");
+    return 0;
 }
