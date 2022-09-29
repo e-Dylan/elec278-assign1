@@ -12,23 +12,39 @@ typedef struct node
     char value;
 } Node;
 
-Node *head = NULL;
+Node *top = NULL;
 
-Node *push(int value)
+// good
+void push(char value)
 {
-    Node *newHead = malloc(sizeof(Node));
-    newHead->value = value;
-    newHead->next = head;
-    head = newHead;
+    Node *new_top = (Node *)malloc(sizeof(Node));
+    new_top->value = value;
+    new_top->next = top;
+    top = new_top;
 }
 
 char pop(void)
 {
+    if (top == NULL)
+    {
+        printf("Stack is empty, cannot pop.");
+    }
+    else
+    {
+        char poppedChar = top->value;
+        top = top->next;
+        return poppedChar;
+    }
 }
 
 void print_stack()
 {
-    Node *tempNode = head;
+    if (top == NULL)
+    {
+        printf("EMPTY STACK.");
+        return;
+    }
+    Node *tempNode = top;
     while (tempNode != NULL)
     {
         printf("%c -> ", tempNode->value);
@@ -47,17 +63,56 @@ bool is_balanced(char str[])
             // Open bracket, push to the stack
             push(str[i]);
         }
-        else if (str[i] == '}' || str[i] == ']' || str[i] == ')')
+        if (str[i] == '}' || str[i] == ']' || str[i] == ')')
         {
-            // Closed bracket, pop from the top of the stack and and compare
-            char poppedChar = pop();
+            if (top == NULL)
+            {
+                // found an end bracket and stack is empty, therefore no
+                // pair open bracket exists. Expression must be unbalanced.
+                return false;
+            }
+            else
+            {
+                // Closed bracket, pop from the top of the stack and and compare
+                char poppedChar = pop();
+                if (poppedChar != str[i])
+                {
+                    // Found a pair of brackets that don't match, must be unbalanced
+                    return false;
+                }
+            }
         }
+    }
+
+    if (top == NULL)
+    {
+        // Expression was balanced, stack is left empty by end
+        return true;
+    }
+    else
+    {
+        // Expression was unbalanced, stack is not empty by end
+        return false;
     }
 }
 
 int main()
 {
-    char to_balance[100] = "{}{}[]]]";
+    char to_balance[100] = "{()}[]";
     printf(is_balanced(to_balance) ? "true" : "false");
     return 0;
+
+    // for (int i = 0; i < 10; i++)
+    // {
+    //     push(i + '0');
+    // }
+    // print_stack();
+    // printf("\n");
+
+    // for (int i = 0; i < 10; i++)
+    // {
+    //     char poppedChar = pop();
+    //     printf("%c\n", poppedChar);
+    // }
+    // print_stack();
 }
