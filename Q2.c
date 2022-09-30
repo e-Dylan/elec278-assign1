@@ -52,6 +52,24 @@ void print_stack()
     }
 }
 
+bool does_match(char c1, char c2)
+{
+    switch (c1)
+    {
+    case '(':
+        if (c2 == ')')
+            return true;
+    case '{':
+        if (c2 == '}')
+            return true;
+    case '[':
+        if (c2 == ']')
+            return true;
+    default:
+        return false;
+    }
+}
+
 // Returns whether or not a given string is balanced
 bool is_balanced(char str[])
 {
@@ -75,9 +93,10 @@ bool is_balanced(char str[])
             {
                 // Closed bracket, pop from the top of the stack and and compare
                 char poppedChar = pop();
-                if (poppedChar != str[i])
+
+                // Found a pair of brackets that don't match, must be unbalanced
+                if (!does_match(poppedChar, str[i]))
                 {
-                    // Found a pair of brackets that don't match, must be unbalanced
                     return false;
                 }
             }
@@ -98,21 +117,7 @@ bool is_balanced(char str[])
 
 int main()
 {
-    char to_balance[100] = "{()}[]";
-    printf(is_balanced(to_balance) ? "true" : "false");
+    char to_balance[50] = "{(})";
+    printf("%d", is_balanced(to_balance));
     return 0;
-
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     push(i + '0');
-    // }
-    // print_stack();
-    // printf("\n");
-
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     char poppedChar = pop();
-    //     printf("%c\n", poppedChar);
-    // }
-    // print_stack();
 }
