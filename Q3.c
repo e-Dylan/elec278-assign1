@@ -32,6 +32,7 @@ int main(void)
     int arr[10] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
     int k = 4;
     print_array(arr, 10);
+    printf("k = %d\n", k);
     int *reversed = reverse(arr, k);
     print_array(reversed, 10);
 }

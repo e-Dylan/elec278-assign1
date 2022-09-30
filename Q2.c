@@ -116,6 +116,6 @@ bool is_balanced(char str[])
 int main(void)
 {
     char to_balance[50] = "{(})";
-    printf("%d", is_balanced(to_balance));
+    printf("%s: %d", to_balance, is_balanced(to_balance));
     return 0;
 }

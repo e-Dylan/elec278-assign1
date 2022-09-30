@@ -138,19 +138,32 @@ void merge(Node *phead1, Node *phead2)
 
 void create()
 {
+    // Part A
     insertfirst(50);
     insertfirst(20);
     insertfirst(10);
+    display(phead);
+
+    // Part B
     insertfirst(5);
+    display(phead);
+
+    // Part C
     deletefirst();
+    display(phead);
+
+    // Part D
     Node *new_node = create_node(30);
     insertpos(new_node, 2);
+    display(phead);
 
+    // Part E
     Node *new_head = create_node(24);
     new_head->next = create_node(25);
     new_head->next->next = create_node(36);
 
     merge(phead, new_head);
+    display(phead);
 }
 
 // Print any passed linked list
@@ -196,5 +209,4 @@ void display(Node *head)
 int main()
 {
     create();
-    display(phead);
 }
