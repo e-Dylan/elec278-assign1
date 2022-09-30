@@ -3,9 +3,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-// ref:
-// https://www.geeksforgeeks.org/check-for-balanced-parentheses-in-an-expression/
-
 typedef struct node
 {
     struct node *next;
@@ -14,7 +11,6 @@ typedef struct node
 
 Node *top = NULL;
 
-// good
 void push(char value)
 {
     Node *new_top = (Node *)malloc(sizeof(Node));
@@ -52,6 +48,8 @@ void print_stack()
     }
 }
 
+// Function to check if two passed characters are matched such that they are 'balanced'.
+// Returns true if c2 is balanced with c1.
 bool does_match(char c1, char c2)
 {
     switch (c1)
@@ -115,7 +113,7 @@ bool is_balanced(char str[])
     }
 }
 
-int main()
+int main(void)
 {
     char to_balance[50] = "{(})";
     printf("%d", is_balanced(to_balance));
